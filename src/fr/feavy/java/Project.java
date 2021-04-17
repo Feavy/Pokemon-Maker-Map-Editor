@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.zip.InflaterInputStream;
 
 import fr.feavy.window.Main;
@@ -43,10 +44,8 @@ public class Project {
 	}
 
 	private FileGameIO getFileGameIO(File f) throws Exception{
-		
-		File tempFile = new File(getClass().getClassLoader().getResource("fr/feavy/ressources/decompiledGame.pkrg").getFile());
 
-		FileOutputStream fos = new FileOutputStream(tempFile);
+		StringBuilder builder = new StringBuilder();
 
 		FileInputStream fis = new FileInputStream(f);
 		InflaterInputStream iis = new InflaterInputStream(fis);
@@ -55,28 +54,27 @@ public class Project {
 		int length = 0;
 
 		while ((length = iis.read(b)) >= 0)
-			fos.write(b, 0, length);
+			builder.append(new String(b, 0, length));
 
 		iis.close();
-		fos.flush();
-		fos.close();
 
-		return new FileGameIO(tempFile);
+		return new FileGameIO(builder.toString());
 		
 	}
 	
 	private FileGameIO createFileGameIO() throws Exception{
 		
-		File tempFile = new File(getClass().getClassLoader().getResource("fr/feavy/ressources/decompiledGame.pkrg").getFile());
-
-		PrintWriter writer = new PrintWriter(tempFile);
-		writer.println("Maps:");
-		writer.println("Scripts:");
-		writer.println("Trainers:");
-		writer.flush();
-		writer.close();
-
-		return new FileGameIO(tempFile);
+		File tempFile = new File(getClass().getResource("/fr/feavy/ressources/decompiledGame.pkrg").getFile());
+		
+		StringBuilder data = new StringBuilder();
+		data.append("Maps:");
+		data.append(System.getProperty("line.separator"));
+		data.append("Scrips:");
+		data.append(System.getProperty("line.separator"));
+		data.append("Trainers:");
+		data.append(System.getProperty("line.separator"));
+		
+		return new FileGameIO(data.toString());
 		
 	}
 	

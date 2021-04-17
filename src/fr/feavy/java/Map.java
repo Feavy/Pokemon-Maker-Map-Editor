@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.sun.jndi.url.corbaname.corbanameURLContextFactory;
-
 public class Map {
 
 	public static final int LEFT = 0;

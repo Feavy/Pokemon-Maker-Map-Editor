@@ -23,7 +23,6 @@ import fr.feavy.java.Map;
 import fr.feavy.java.Project;
 import fr.feavy.java.utils.ImageUtils;
 import fr.feavy.window.Main;
-import sun.net.www.content.image.jpeg;
 
 import java.awt.Color;
 import java.awt.Dimension;

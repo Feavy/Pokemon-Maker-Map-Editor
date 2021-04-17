@@ -8,11 +8,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 import java.util.zip.DeflaterOutputStream;
 
 public class FileGameIO {
 
-	private File project;
+	private String data;
 	private int scriptsIndex = -1;
 	private int mapsIndex = -1;
 	private int trainersIndex = -1;
@@ -21,16 +22,17 @@ public class FileGameIO {
 	private int scriptCount = 0;
 	private int trainerCount = 0;
 	
-	protected FileGameIO(File decompiledProject) throws Exception{
+	protected FileGameIO(String data) throws Exception{
 		
 		String currentStep = "";
 		
-		this.project = decompiledProject;
+		this.data = data;
 		String line = null;
 		int lineNb = 0;
-		BufferedReader reader = new BufferedReader(new FileReader(decompiledProject));
+		Scanner reader = new Scanner(data);
 		
-		while((line = reader.readLine()) != null){
+		while(reader.hasNextLine()){
+			line = reader.nextLine();
 			
 			if(line.equals("Maps:")){
 				mapsIndex = lineNb+1;
@@ -61,34 +63,23 @@ public class FileGameIO {
 	}
 	
 	private String readLine(int line) throws IOException{
-		
-		String response = "";
-		int lineNb = 0;
-		BufferedReader reader = new BufferedReader(new FileReader(project));
-		
-		while(lineNb < line){
-			reader.readLine();
-			lineNb++;
-		}
-		
-		response = reader.readLine();
-		reader.close();
-		return response;
-		
+		return data.split("\n")[line];
 	}
 	
-	private void setLine(int line, String data, boolean add) throws Exception{
+	private void setLine(int line, String value, boolean insert) throws Exception{
 		
 		int lineNb = 0;
 		String str = "";
 		
-		BufferedReader reader = new BufferedReader(new FileReader(project));
+		Scanner reader = new Scanner(data);
+		
 		StringBuilder builder = new StringBuilder();
 		
-		while((str = reader.readLine()) != null){
+		while(reader.hasNextLine()){
+			str = reader.nextLine();
 			if(lineNb == line){
-				builder.append(data+"\n");
-				if(add)
+				builder.append(value+"\n");
+				if(insert)
 					builder.append(str+"\n");
 			}else
 				builder.append(str+"\n");
@@ -96,15 +87,9 @@ public class FileGameIO {
 		}
 		
 		if(lineNb < line)
-			builder.append(data+"\n");
+			builder.append(value+"\n");
 		
-		reader.close();
-		
-		PrintWriter writer = new PrintWriter(project);
-		
-		writer.write(builder.toString());
-		writer.flush();
-		writer.close();
+		data = builder.toString();
 		
 	}
 	
@@ -211,27 +196,10 @@ public class FileGameIO {
 	}
 	
 	protected void save(File f) throws IOException{
-		
-		BufferedReader reader = new BufferedReader(new FileReader(project));
-		
-		StringBuilder builder = new StringBuilder();
-		
-		String str = "";
-		
-		System.out.println("Saving...");
-		
-		while((str = reader.readLine()) != null){
-			System.out.println(str);
-			builder.append(str+"\n");
-		}
-		
-		reader.close();
-		
 		DeflaterOutputStream dos = new DeflaterOutputStream(new FileOutputStream(f));
-		dos.write(builder.toString().getBytes());
+		dos.write(data.getBytes());
 		dos.flush();
 		dos.close();
-			
 	}
 	
 }

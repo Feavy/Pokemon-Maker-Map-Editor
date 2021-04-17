@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -15,22 +16,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JViewport;
 import javax.swing.Scrollable;
 
-import com.sun.glass.events.KeyEvent;
-
 import fr.feavy.java.Coordonate;
 import fr.feavy.java.MainMenu;
 import fr.feavy.java.Map;
-import fr.feavy.java.Project;
 import fr.feavy.java.Warp;
 import fr.feavy.java.utils.ImageUtils;
 import fr.feavy.java.utils.WindowUtils;
-import javafx.scene.input.KeyCode;
 
 public class MapPanel extends JPanel implements Scrollable {
 
